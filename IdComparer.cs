@@ -20,15 +20,25 @@ namespace AdventofCode_DayTwo_2025
                     long idEnd = long.Parse(parts[1]);
                     for (long i = idStart; i <= idEnd; i++)
                     {
-                        if (i.ToString().Length % 2 == 0)
+                        string number = i.ToString();
+                        int numberLength = number.Length;
+                        for (int len = 1; len <= numberLength / 2; len++)
                         {
-                            string number = i.ToString();
-                            int mid = number.Length / 2;
-                            long first = long.Parse(number.Substring(0, mid));
-                            long second = long.Parse(number.Substring(mid, mid));
-                            if (first == second)
+                            if (numberLength % len != 0) continue;
+                            string pattern = number.Substring(0, len);
+                            bool isRepeating = true;
+                            for (int j = len; j < numberLength; j += len)
+                            {
+                                if (number.Substring(j, len) != pattern)
+                                {
+                                    isRepeating = false;
+                                    break;
+                                }
+                            }
+                            if (isRepeating)
                             {
                                 invalidSum += i;
+                                break;
                             }
                         }
                     }
